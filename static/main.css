@@ -1,0 +1,46 @@
+body {
+	width:800px;
+    margin:auto;
+    color:#1c1c1c;
+}
+
+/* Header */
+#header {
+    text-align:center;
+    font-size:2.3em;
+}
+
+/* Content */
+#content{
+    text-align:justify;
+}
+
+#content p {
+    text-indent:30px;
+}
+
+#content a {
+    text-decoration:none;
+    font-weight:bold;
+    color:#002254;
+}
+
+#content a:hover {
+    text-decoration:underline;
+}
+
+/* Footer */
+#footer {
+    text-align:center;
+    font-size:0.8em;
+    font-weight:bold;
+}
+
+#footer a {
+    text-decoration:none;
+    color:#1c1c1c;
+}
+
+/* On the footer side... */
+#footer p:before {content:"| ";}
+#footer p:after {content:" |";}
