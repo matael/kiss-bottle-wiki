@@ -1,0 +1,6 @@
+This is a really simple and minimalist wiki engine written in python
+
+# Requirements
+
+- [bottlePy](http://bottlepy.org/) ([github](https://github.com/defnull/bottle))
+- [Python Markdown](http://www.freewisdom.org/projects/python-markdown/)
