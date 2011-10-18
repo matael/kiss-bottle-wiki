@@ -1,0 +1,4 @@
+# Welcome
+
+Hi ! I'm your new wiki !
+Lets fill me writing some pages in the `src/` directory !
