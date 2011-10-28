@@ -19,15 +19,19 @@ from bottle import\
 application = Bottle()
 debug(True)
 
+
 @application.route('/static/:filename')
 def server_static(filename):
     """ Serve Static files """
     return static_file(filename, root='static/')
 
+
 @application.error(404)
 def mistake404(code):
     """ 404 Error """
     return template('templates/404.html')
+
+
 def _compile_page(name):
     if name=='' or name=='None':
         name='index'
@@ -37,11 +41,13 @@ def _compile_page(name):
     template = open("templates/page.html",'r')
     return str(template.read()).format(text)
 
+
 @application.route('/')
 @application.route('/page')
 @application.route('/page/:name')
 def show_page(name=''):
     return _compile_page(name)
+
 
 def main():
     run(application, host='localhost', port=8080)
