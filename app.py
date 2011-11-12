@@ -3,6 +3,7 @@
 import sys
 import os
 import codecs
+import re
 from markdown import markdown
 from bottle import\
         Bottle,\
@@ -18,6 +19,9 @@ from bottle import\
 
 application = Bottle()
 debug(True)
+    
+# WIKI_RE
+WIKI_RE = re.compile('\[\[([^\]]*)\]\]')
 
 @application.route('/static/:filename')
 def server_static(filename):
@@ -28,23 +32,28 @@ def server_static(filename):
 def mistake404(code):
     """ 404 Error """
     return template('templates/404.html')
+
+
 def _compile_page(name):
     if name=='' or name=='None':
         name='index'
     filename = "src/{0}.mkd".format(name)
+    print(filename)
     file = codecs.open(filename, 'r', encoding='utf8')
-    text = markdown(file.read())
+    text = WIKI_RE.sub(r'[\1](\1)',file.read())
+    print(text)
+    text = markdown(text)
     template = open("templates/page.html",'r')
     return str(template.read()).format(text)
 
+
 @application.route('/')
-@application.route('/page')
-@application.route('/page/:name')
+@application.route('/:name')
 def show_page(name=''):
     return _compile_page(name)
 
 def main():
-    run(application, host='localhost', port=8080)
+    run(application, host='0.0.0.0', port=8080)
     return 0
 
 if __name__ == '__main__': main()
