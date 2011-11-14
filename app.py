@@ -36,11 +36,13 @@ def mistake404(code):
     return template('templates/404.html')
 
 
-def _compile_page(name):
-    if name=='' or name=='None':
-        name='index'
-    filename = "src/{0}.mkd".format(name)
-    print(filename)
+@application.error(500)
+def mistake500(code):
+    """ 500 Error """
+    return template('templates/500.html')
+
+
+def _compile_page(filename):
     file = codecs.open(filename, 'r', encoding='utf8')
     text = WIKI_RE.sub(r'[\1](\1)',file.read())
     print(text)
