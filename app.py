@@ -49,6 +49,37 @@ def _compile_page(filename):
     template = codecs.open("templates/page.html",'r', encoding='utf8')
     return unicode(template.read()).format(text)
 
+@application.route('/edit')
+@application.route('/:name/edit')
+@application.route('/edit', method="POST")
+@application.route('/:name/edit', method="POST")
+def edit_page(name=''):
+    if name=='' or name==None:
+        name = 'index'
+    if request.method == "GET":
+        try:
+            file = open('src/{0}.mkd'.format(name))
+        except IOError:
+            if os.path.exists('src/{0}.mkd.save'.format(name)):
+                return template('templates/comelater.html', name=name)  
+            else:
+                return template('templates/editpage.html', name=name, content='')
+        text = file.read()
+        file.close()
+        os.remove('src/{0}.mkd'.format(name))
+        save = open('src/{0}.mkd.save'.format(name),'w')
+        save.write(text)
+        save.close()
+        return template('templates/editpage.html', name=name, content=text)
+    elif request.method == "POST":
+        content = request.POST['content']
+        file = open('src/{0}.mkd'.format(name),'w')
+        file.write(content)
+        file.close()
+        try:
+            os.remove('src/{0}.mkd.save'.format(name))
+        except : pass
+        return redirect("/{0}".format(name))
 
 @application.route('/')
 @application.route('/:name')
