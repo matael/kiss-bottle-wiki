@@ -45,10 +45,9 @@ def mistake500(code):
 def _compile_page(filename):
     file = codecs.open(filename, 'r', encoding='utf8')
     text = WIKI_RE.sub(r'[\1](\1)',file.read())
-    print(text)
     text = markdown(text)
-    template = open("templates/page.html",'r')
-    return str(template.read()).format(text)
+    template = codecs.open("templates/page.html",'r', encoding='utf8')
+    return unicode(template.read()).format(text)
 
 
 @application.route('/')
