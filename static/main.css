@@ -29,6 +29,22 @@ body {
     text-decoration:underline;
 }
 
+form {
+	text-align: center;
+}
+
+textarea {
+    width : 100%;
+    height : 600px;
+}
+
+.edit_link {
+    float: right;
+    border-left : 1px solid #002254;
+    border-bottom : 1px solid #002254;
+
+}
+
 /* Footer */
 #footer {
     text-align:center;
