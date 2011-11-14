@@ -25,10 +25,12 @@ debug(True)
 # WIKI_RE
 WIKI_RE = re.compile('\[\[([^\]]*)\]\]')
 
+
 @application.route('/static/:filename')
 def server_static(filename):
     """ Serve Static files """
     return static_file(filename, root='static/')
+
 
 @application.error(404)
 def mistake404(code):
@@ -81,6 +83,7 @@ def edit_page(name=''):
         except : pass
         return redirect("/{0}".format(name))
 
+
 @application.route('/')
 @application.route('/:name')
 def show_page(name=''):
@@ -92,6 +95,7 @@ def show_page(name=''):
     if not os.path.exists(filename):
         return redirect("/{0}/edit".format(name))
     return _compile_page(filename)
+
 
 def main():
     run(application, host='0.0.0.0', port=8080)
