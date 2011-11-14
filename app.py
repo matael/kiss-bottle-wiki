@@ -12,7 +12,9 @@ from bottle import\
         template,\
         static_file,\
         error,\
-        debug
+        debug,\
+        request,\
+        redirect
 
 # Uncomment to run in a WSGI server
 #os.chdir(os.path.dirname(__file__))
