@@ -44,12 +44,12 @@ def mistake500(code):
     return template('templates/500.html')
 
 
-def _compile_page(filename):
+def _compile_page(filename,name):
     file = codecs.open(filename, 'r', encoding='utf8')
     text = WIKI_RE.sub(r'[\1](\1)',file.read())
     text = markdown(text)
     template = codecs.open("templates/page.html",'r', encoding='utf8')
-    return unicode(template.read()).format(text)
+    return unicode(template.read()).format(text,name)
 
 @application.route('/edit')
 @application.route('/:name/edit')
@@ -94,7 +94,7 @@ def show_page(name=''):
         filename = '{0}.save'.format(filename)
     if not os.path.exists(filename):
         return redirect("/{0}/edit".format(name))
-    return _compile_page(filename)
+    return _compile_page(filename,name)
 
 
 def main():
