@@ -84,7 +84,14 @@ def edit_page(name=''):
 @application.route('/')
 @application.route('/:name')
 def show_page(name=''):
-    return _compile_page(name)
+    if name=='' or name=='None':
+        name='index'
+    filename = "src/{0}.mkd".format(name)
+    if not os.path.exists(filename):
+        filename = '{0}.save'.format(filename)
+    if not os.path.exists(filename):
+        return redirect("/{0}/edit".format(name))
+    return _compile_page(filename)
 
 def main():
     run(application, host='0.0.0.0', port=8080)
