@@ -5,6 +5,7 @@ import os
 import codecs
 import re
 from markdown import markdown
+import git
 from bottle import\
         Bottle,\
         run,\
@@ -15,6 +16,16 @@ from bottle import\
         debug,\
         request,\
         redirect
+
+#####################################
+############  SETTINGS  #############
+#####################################
+
+# remember to use trailling slash
+ROOT_PATH = "/absolute/path/to/kbw/"
+
+#####################################
+#####################################
 
 # Uncomment to run in a WSGI server
 #os.chdir(os.path.dirname(__file__))
@@ -51,6 +62,15 @@ def _compile_page(filename,name):
     template = codecs.open("templates/page.html",'r', encoding='utf8')
     return unicode(template.read()).format(text,name)
 
+def _commit_page(name, resume_line):
+    try:
+        repo = git.Repo(ROOT_PATH).git
+        repo.add("src/{0}.mkd".format(name))
+        repo.commit(m=resume_line)
+    except:
+        pass
+
+
 @application.route('/edit')
 @application.route('/:name/edit')
 @application.route('/edit', method="POST")
@@ -75,9 +95,14 @@ def edit_page(name=''):
         return template('templates/editpage.html', name=name, content=text)
     elif request.method == "POST":
         content = request.POST['content']
+        if request.POST['resume_line'] != '':
+            resume_line = request.POST['resume_line']
+        else:
+            resume_line = 'update page'
         file = open('src/{0}.mkd'.format(name),'w')
         file.write(content)
         file.close()
+        _commit_page(name, resume_line)
         try:
             os.remove('src/{0}.mkd.save'.format(name))
         except : pass
