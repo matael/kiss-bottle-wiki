@@ -1,3 +1,5 @@
+[![Flattr this git repo](http://api.flattr.com/button/flattr-badge-large.png)](https://flattr.com/submit/auto?user_id=Matael&url=https://github.com/Matael/kiss-bottle-wiki&title=Kiss Bottle Wiki&language=en_GB&tags=github&category=software)
+
 This is a really simple and minimalist wiki engine written in python
 
 # Requirements
