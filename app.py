@@ -63,12 +63,9 @@ def _compile_page(filename,name):
     return unicode(template.read()).format(text,name)
 
 def _commit_page(name, resume_line):
-    try:
-        index = git.Repo(ROOT_PATH).index
-        index.add(["src/{0}.mkd".format(name)])
-        index.commit(resume_line)
-    except:
-        pass
+    repo = git.Repo(ROOT_PATH).git
+    repo.add("src/{0}.mkd".format(name))
+    repo.commit(m=resume_line)
 
 
 @application.route('/edit')
