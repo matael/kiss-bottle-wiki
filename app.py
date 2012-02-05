@@ -60,7 +60,13 @@ def mistake500(code):
 
 def _compile_page(filename,name):
     file = codecs.open(filename, 'r', encoding='utf8')
-    text = WIKI_RE.sub(r'[\1](\1)',file.read())
+    text = ""
+    cur = file.readline()
+    while cur:
+        if not METADATA_RE.search(cur):
+            text+=cur # crappy concatenation
+        cur = file.readline()
+    text = WIKI_RE.sub(r'[\1](\1)',text)
     text = markdown(text)
     template = codecs.open("templates/page.html",'r', encoding='utf8')
     return unicode(template.read()).format(text,name)
