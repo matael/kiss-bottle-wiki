@@ -4,6 +4,8 @@ import sys
 import os
 import codecs
 import re
+import datetime
+import time
 from markdown import markdown
 import git
 from bottle import\
@@ -35,7 +37,8 @@ debug(True)
     
 # WIKI_RE
 WIKI_RE = re.compile('\[\[([^\]]*)\]\]')
-
+METADATA = ';;;- '
+METADATA_RE = re.compile(";;;- ")
 
 @application.route('/static/:filename')
 def server_static(filename):
@@ -80,14 +83,34 @@ def edit_page(name=''):
             file = open('src/{0}.mkd'.format(name))
         except IOError:
             if os.path.exists('src/{0}.mkd.save'.format(name)):
-                return template('templates/comelater.html', name=name)  
+                f = open('src/{0}.mkd.save'.format(name))
+                f.seek(-17,2)
+                old_ts = int(f.read().lstrip(METADATA).rstrip())
+                if (old_ts-int(time.mktime(datetime.datetime.now().timetuple()))) < 1800:
+                    f.close()
+                    file = open('src/{0}.mkd.save'.format(name))
+                    pass
+                else:
+                    return template('templates/comelater.html', name=name)  
             else:
                 return template('templates/editpage.html', name=name, content='')
-        text = file.read()
+        # Get current content
+        text = ""
+        cur = file.readline()
+        while cur:
+            if not METADATA_RE.search(cur):
+                text+=cur # crappy concatenation
+            cur = file.readline()
         file.close()
-        os.remove('src/{0}.mkd'.format(name))
+        # Create backup file
+        try:
+            os.remove('src/{0}.mkd'.format(name))
+        except OSError:
+            pass
         save = open('src/{0}.mkd.save'.format(name),'w')
-        save.write(text)
+        save.write(text) # current content
+        # security string
+        save.write("\n{0} {1}\n".format(METADATA, int(time.mktime(datetime.datetime.now().timetuple()))))
         save.close()
         return template('templates/editpage.html', name=name, content=text)
     elif request.method == "POST":
