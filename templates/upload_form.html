@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+	<head>
+		<title>wiki title</title>
+		<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
+		<meta http-equiv="Content-Style-Type" content="text/css" />
+		<link rel="stylesheet" media="screen" href="/static/main.css"/>
+	</head>
+    <body>
+        <div id="header">
+            <h1>My Awesome Wiki</h1>
+        </div>
+		<div id="content">
+			<h1>Upload</h1>
+			<p>Here you can create a new page uploading a file.
+			The <strong>whole</strong> filename (<strong>including the extension</strong>) will be used as page name.</p>
+			<p>As every other pages of this wiki, file content has to be written using markdown to get rendered correctly</p>
+            <p>Note that if you send a file named as a page that already exists, your upload will be ignored.</p>
+			<form method="post" action="" enctype="multipart/form-data">
+                <p>
+                    <label for="data">Pick up the file you want to upload :</label>
+			        <input type="file" id="data" name="data"/>
+			    </p>
+				<p><input type="submit" value="Send !"/></p>
+			</form>
+        </div>
+        <div id="footer">
+            <p>powered by <a href="https://github.com/Matael/kiss-bottle-wiki">kbw</a></p>
+        </div>
+	</body>
+</html>
+

@@ -135,6 +135,23 @@ def edit_page(name=''):
         return redirect("/{0}".format(name))
 
 
+@application.route('/upload')
+@application.route('/upload', method="POST")
+def upload():
+    """ View handling file uploads """
+    if request.method=="GET":
+        return template('templates/upload_form.html')
+    elif request.method=="POST":
+        data = request.files.data
+        current_articles = [_.rstrip('.save').rstrip('.mkd') for _ in os.listdir('src/')]
+        if data.filename in current_articles:
+            return redirect("/{0}".format(data.filename))
+        dest_file = open("src/{0}.mkd".format(data.filename), 'w')
+        dest_file.write(data.file.read())
+        dest_file.close()
+        return redirect("/{0}".format(data.filename))
+
+
 @application.route('/')
 @application.route('/:name')
 def show_page(name=''):
