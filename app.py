@@ -142,7 +142,7 @@ def upload():
     if request.method=="GET":
         return template('templates/upload_form.html')
     elif request.method=="POST":
-        data = request.files.data
+        data = request.files['data']
         current_articles = [_.rstrip('.save').rstrip('.mkd') for _ in os.listdir('src/')]
         if data.filename in current_articles:
             return redirect("/{0}".format(data.filename))
