@@ -67,7 +67,7 @@ def _compile_page(filename,name):
             text+=cur # crappy concatenation
         cur = file.readline()
     text = WIKI_RE.sub(r'[\1](\1)',text)
-    text = markdown(text)
+    text = markdown(text, ['extra'])
     template = codecs.open("templates/page.html",'r', encoding='utf8')
     return unicode(template.read()).format(text,name)
 
